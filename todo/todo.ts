@@ -1,4 +1,5 @@
-/*import readline from "readline"
+import type { listen } from "node:quic";
+import readline from "readline"
 
 //store todo in an array
 
@@ -13,7 +14,7 @@ let todos: Todo [] = [];
 
 const rl = readline.createInterface({
   input: process.stdin, //listens to what we type
-  output: process.stdout // shows messages on the
+  output: process.stdout // shows messages on the screen
 })
 
 //Create
@@ -57,6 +58,33 @@ if(todos.length === 0) {
   })
 }
 
+//Update todo
+
+const updateTodo = () => {
+
+rl.question("which todo would you like to update? please enter the id of the task \n", 
+  (input:string) => {
+
+    const id: number = parseInt(input)
+
+    const task = todos.find(todo => todo.id === id)
+
+
+    if(!task){
+      console.log('Task not found')
+      showMenu()
+  
+    } else {
+      rl.question("write a new task \n", (newTask:string) => {
+        task.text = newTask
+        console.log('Task updated successfully')
+        showMenu()
+      })
+    }
+  })
+}
+
+  
 //Delete todo
 
 const deleteTodo = () => {
@@ -90,6 +118,9 @@ const handleCommand = (command: string) : void => {
     case "read":
       readTodos()
       break;
+     case "update":
+      updateTodo()
+      break;
     case "delete":
       deleteTodo()
       break;
@@ -108,7 +139,7 @@ const handleCommand = (command: string) : void => {
 
 const showMenu = () => {
 console.log("\n === Todo List App ===")
-console.log("Commands: add, read, delete, exit \n");
+console.log("Commands: add, read, update, delete, exit \n");
 process.stdout.write(">")
 
 rl.question("", (command:string) => {
@@ -120,4 +151,3 @@ rl.question("", (command:string) => {
 
 showMenu()
 
-*/
